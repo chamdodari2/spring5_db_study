@@ -1,6 +1,7 @@
 package spring5_db_study.spring;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 public class ChangePasswordService {
 	
@@ -18,7 +19,7 @@ public class ChangePasswordService {
 		//변경하고자 하는 서비스가 이메일에 존재하는앤지 검색해서 패스워드 변경
 	//	this.memberDao = memberDao;
 	//}
-	
+	@Transactional //하나의 작업으로 처리하겠당
 	public void changePassword(String email, String oldPwd, String newPwd) {
 		Member member = memberDao.selectByEmail(email);
 		if (member == null)

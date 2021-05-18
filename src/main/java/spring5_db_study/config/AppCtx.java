@@ -4,6 +4,9 @@ import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import spring5_db_study.spring.ChangePasswordService;
 import spring5_db_study.spring.MemberDao;
@@ -14,7 +17,8 @@ import spring5_db_study.spring.MemberRegisterService;
 import spring5_db_study.spring.VersionPrinter;
 
 @Configuration
-@ComponentScan(basePackages = {"spring5_db_study.spring"})
+@ComponentScan(basePackages = {"spring5_db_study.spring"})  //이게 있어서 엄밀하게 
+@EnableTransactionManagement
 public class AppCtx {
 
 	@Bean(destroyMethod = "close")
@@ -33,7 +37,13 @@ public class AppCtx {
 	return ds;
 	}
 	
-	
+	@Bean
+	public PlatformTransactionManager transactionMangager() {
+	DataSourceTransactionManager tm = new DataSourceTransactionManager();
+	tm.setDataSource(dataSource());
+	return tm;
+	}
+
 	
 	@Bean
 	public MemberDao memberDao() {
